@@ -9,6 +9,6 @@ import com.rafael.product.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, UUID>{
 	
-	public Optional<Product> findByName(String name);
+	public Optional<Product> findByProduct(String product);
 
 }

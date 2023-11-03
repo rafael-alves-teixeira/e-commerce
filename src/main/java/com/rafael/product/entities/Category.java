@@ -1,6 +1,5 @@
 package com.rafael.product.entities;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -13,7 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -25,18 +24,18 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	@NotBlank(message = "It is necessary to inform the category!")
-	private String name;
+	private String category;
 	
-	@ManyToOne(fetch=FetchType.LAZY, mappedBy = "ProductName", cascade = CascadeType.PERSIST)
-	@JsonIgnoreProperties("curso") //Evita looping!
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "category", cascade = CascadeType.PERSIST.ALL)
+	@JsonIgnoreProperties("category") //Evita looping!
 	private List<Product> products;
 
 	public Category() {}
 
-	public Category(UUID id, String name, Product[] products) {
+	public Category(UUID id, String category, List<Product> products) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.category = category;
 		this.products = products;
 	}
 
@@ -48,25 +47,25 @@ public class Category {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public Product[] getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Product[] products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(id, category);
 	}
 
 	@Override
@@ -78,12 +77,12 @@ public class Category {
 		if (getClass() != obj.getClass())
 			return false;
 		Category other = (Category) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		return Objects.equals(id, other.id) && Objects.equals(category, other.category);
 	}
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", products=" + Arrays.toString(products) + "]";
+		return "Category [id=" + id + ", category=" + category + "]";
 	}
 	
 	

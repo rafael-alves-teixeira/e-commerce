@@ -35,7 +35,7 @@ public class ProductService {
 	
 	public Optional<Product> saveProduct(Product product) {
 
-		if (productRepository.findByName(product.getName()).isPresent()) {
+		if (productRepository.findByProduct(product.getProduct()).isPresent()) {
 			return Optional.empty();
 		}
 		return Optional.of(productRepository.save(product));
@@ -45,7 +45,7 @@ public class ProductService {
 	
 	public SimpleEntry<Optional<Product>, Boolean> updateProduct(Product product) {
 	    Optional<Product> productById = productRepository.findById(product.getId());
-	    Optional<Product> productByName = productRepository.findByName(product.getName());
+	    Optional<Product> productByName = productRepository.findByProduct(product.getProduct());
 
 	    if (productById.isPresent()) {
 	        if (productByName.isPresent() && !productById.get().getId().equals(productByName.get().getId())) {

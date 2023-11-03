@@ -32,7 +32,7 @@ public class CategoryService {
 	
 	public Optional<Category> saveCategory(Category category) {
 
-		if (categoryRepository.findByName(category.getName()).isPresent()) {
+		if (categoryRepository.findByCategory(category.getCategory()).isPresent()) {
 			return Optional.empty();
 		}
 		return Optional.of(categoryRepository.save(category));
@@ -42,7 +42,7 @@ public class CategoryService {
 	
 	public SimpleEntry<Optional<Category>, Boolean> updateCategory(Category category) {
 	    Optional<Category> categoryById = categoryRepository.findById(category.getId());
-	    Optional<Category> categoryByName = categoryRepository.findByName(category.getName());
+	    Optional<Category> categoryByName = categoryRepository.findByCategory(category.getCategory());
 
 	    if (categoryById.isPresent()) {
 	        if (categoryByName.isPresent() && !categoryById.get().getId().equals(categoryByName.get().getId())) {

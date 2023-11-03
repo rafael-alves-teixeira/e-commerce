@@ -9,6 +9,6 @@ import com.rafael.product.entities.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
 	
-	public Optional<Category> findByName(String name);
+	public Optional<Category> findByCategory(String category);
 
 }
