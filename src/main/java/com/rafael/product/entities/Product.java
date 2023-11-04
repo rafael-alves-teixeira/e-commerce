@@ -27,16 +27,17 @@ public class Product {
 	@NotBlank(message = "It is necessary to inform the product name!")	
 	private String product;
 	
+	@NotNull(message = "Please, inform the quantity!")	
 	private int quantity;
-	@NotNull(message = "Please, inform the price!")
 	
+	@NotNull(message = "Please, inform the price!")	
 	private double price;
 
 	@NotBlank(message = "It is necessary to inform the product name!")
 	@ManyToOne
 	@JsonIgnoreProperties("product") //Evita looping!
 	private Category category;
-	
+//	
 	public Product() {}
 	
 	public Product(UUID id, String product, int quantity, double price, Category category) {
@@ -108,7 +109,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", product=" + product + ", quantity=" + quantity + ", price=" + price + ", category=" + category + "]";
+		return "Product [id=" + id + ", product=" + product + ", quantity=" + quantity + ", price=" + price + "]";
 	}
 	
 	

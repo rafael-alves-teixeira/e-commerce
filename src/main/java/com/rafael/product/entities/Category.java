@@ -23,6 +23,7 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
+	
 	@NotBlank(message = "It is necessary to inform the category!")
 	private String category;
 	

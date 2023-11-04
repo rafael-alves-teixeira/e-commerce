@@ -44,15 +44,26 @@ public class OrderService {
 	}
 
 	
-	public Optional<Order> updateOrder(Order order) {			
-	    if(orderRepository.findById(order.getId()).isPresent()){
-	        
-	        return Optional.ofNullable(orderRepository.save(order));
-	    }	    	   
-	    return Optional.empty(); 
-	}
+//	public Optional<Order> updateOrder(Order order) {			
+//	    if(orderRepository.findById(order.getId()).isPresent()){
+//	        
+//	        return Optional.ofNullable(orderRepository.save(order));
+//	    }	    	   
+//	    return Optional.empty(); 
+//	}
 		
-
+	public Optional<Order> updateOrder(Order order) {
+	    // Verifique se o pedido com o ID especificado existe no repositório.
+	    if (orderRepository.existsById(order.getId())) {
+	        return Optional.of(orderRepository.save(order));
+	    } else {
+	        return Optional.empty();
+	    }
+	}
+	
+	
+	
+	
 	
 	public void delete(UUID id) {
 

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rafael.product.entities.enums.OrderStatus;
 
 import jakarta.persistence.CascadeType;
@@ -14,8 +13,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -26,7 +23,8 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	private OrderStatus status;
+	
+	private OrderStatus status = OrderStatus.PROCESSING;
 
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
@@ -45,6 +43,7 @@ public class Order {
 
 	public Order() {}
 
+	
 	public Order(UUID id, List<OrderItem> items, OrderStatus status) {
 		super();
 		this.id = id;
@@ -63,6 +62,10 @@ public class Order {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
+	
+//	public void setStatus() {
+//		status = OrderStatus.FINISHED;
+//	}
 
 	public void addItem(OrderItem item) {
 		items.add(item);
@@ -90,7 +93,11 @@ public class Order {
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", status=" + status + ", items=" + items + "]";
+	}
+
 	
 	
 	

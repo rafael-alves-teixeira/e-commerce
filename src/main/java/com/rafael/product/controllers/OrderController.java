@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.rafael.product.entities.Order;
+import com.rafael.product.entities.enums.OrderStatus;
+import com.rafael.product.repositories.OrderRepository;
 import com.rafael.product.services.OrderService;
 
 import jakarta.validation.Valid;
@@ -31,6 +33,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+//	@Autowired
+//	private OrderRepository orderRepository;
 	
 	@GetMapping
 	public ResponseEntity<List<Order>> getAll(){
@@ -46,19 +51,32 @@ public class OrderController {
 	@PostMapping
 	public ResponseEntity<Order> post(@Valid @RequestBody Order order) {
 		return orderService.saveOrder(order)
-				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+				.map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
 				.orElse(ResponseEntity.status(HttpStatus.CONFLICT).build());
 	}	        
 
+	
 	@PutMapping
-	public ResponseEntity<Optional<Order>> updateOrder(@Valid @RequestBody Order order) {
+    public ResponseEntity<Optional<Order>> updateOrder(@Valid @RequestBody Order order) {
+        return orderService.findById(order.getId())
+            .map(existingOrder -> {
+                existingOrder.setStatus(OrderStatus.FINISHED);
+                Optional<Order> updatedOrder = orderService.updateOrder(existingOrder);
+                return ResponseEntity.status(HttpStatus.OK).body(updatedOrder);
+            })
+            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+}
 		
-		return orderService.findById(order.getId())
-	            .map(resposta -> ResponseEntity.status(HttpStatus.CREATED)
-	            .body(orderService.saveOrder(order)))
-	            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-	}
-		
+	
+//	@PutMapping
+//	public ResponseEntity<Optional<Order>> updateOrder(@Valid @RequestBody Order order) {
+//				
+//		return orderService.findById(order.getId())
+//	            .map(resposta -> ResponseEntity.status(HttpStatus.OK)
+//	            .body(orderService.saveOrder(resposta)))
+//	            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+//	}
+	
 	  
 	  @ResponseStatus(HttpStatus.NO_CONTENT)
 	  @DeleteMapping("/{id}") 
