@@ -23,10 +23,13 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	@NotBlank(message = "It is necessary to inform the product name!")
+	
+	@NotBlank(message = "It is necessary to inform the product name!")	
 	private String product;
+	
 	private int quantity;
 	@NotNull(message = "Please, inform the price!")
+	
 	private double price;
 
 	@NotBlank(message = "It is necessary to inform the product name!")

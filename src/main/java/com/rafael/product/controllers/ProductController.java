@@ -76,6 +76,8 @@ public class ProductController {
 	  
 	  if(product.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	  
-	  productService.deleteById(id); }
+	  productService.deleteById(id);
+	  
+	  }
 	
 }
